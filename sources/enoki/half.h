@@ -19,11 +19,17 @@ NAMESPACE_BEGIN(enoki)
 struct half;
 NAMESPACE_END(enoki)
 
+// TRIUMPH: clang 21+ (Xcode 26.6) rejects user specializations of these standard
+// traits ([[clang::no_specializations]], -Winvalid-specialization is an error).
+// enoki only uses them to treat half as a scalar in its trait machinery; the
+// engine never relies on that, so skip them where the compiler forbids them.
+#if !defined(__has_warning) || !__has_warning("-Winvalid-specialization")
 NAMESPACE_BEGIN(std)
 template<> struct is_floating_point<enoki::half> : true_type { };
 template<> struct is_arithmetic<enoki::half> : true_type { };
 template<> struct is_signed<enoki::half> : true_type { };
 NAMESPACE_END(std)
+#endif
 
 NAMESPACE_BEGIN(enoki)
 struct half {
