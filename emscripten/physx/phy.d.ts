@@ -118,6 +118,7 @@ declare namespace phy {
         setMaterials (materials: Array<Material>): void
         setRestOffset (val: number): void
         setContactOffset (offset: number): void
+        getContactOffset (): number
         setGeometry (geometry: Geometry): void
     }
 
@@ -153,9 +154,12 @@ declare namespace phy {
         getCMassLocalPose (): Transform
         setLinearDamping (val: number): void
         setAngularDamping (val: number): void
+        setMaxAngularVelocity (val: number): void
+        getMaxAngularVelocity (): number
         setLinearVelocity (val: Vec3, autowake?: boolean | true): void
         setAngularVelocity (val: Vec3, autowake?: boolean | true): void
         addTorque (torque: Vec3, mode: number, autowake?: boolean | true): void
+        addTorqueImpulse (impulse: Vec3): void
         setRigidBodyFlag (flag: RigidBodyFlag, val: boolean): void
         setRigidBodyFlags (flags: number): void
         getRigidBodyFlags (flags: number): void
