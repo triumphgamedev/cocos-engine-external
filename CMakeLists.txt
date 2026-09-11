@@ -18,8 +18,15 @@ elseif(APPLE)
     if(MACOSX)
         include(${CMAKE_CURRENT_LIST_DIR}/mac/CMakeLists.txt)
     elseif(IOS)
-        # include(${CMAKE_CURRENT_LIST_DIR}/ios-m1-simulator/CMakeLists.txt) # Uncomment this line and comment next line if using M1 simulator
-        include(${CMAKE_CURRENT_LIST_DIR}/ios/CMakeLists.txt)
+        # TRIUMPH PATCH: upstream expects you to hand-edit which of these two
+        # lines is commented out to switch between device and Apple-Silicon
+        # simulator prebuilts. We build BOTH slices to package an XCFramework,
+        # so make it a flag: -DCC_IOS_SIMULATOR=ON.
+        if(CC_IOS_SIMULATOR)
+            include(${CMAKE_CURRENT_LIST_DIR}/ios-m1-simulator/CMakeLists.txt)
+        else()
+            include(${CMAKE_CURRENT_LIST_DIR}/ios/CMakeLists.txt)
+        endif()
     endif()
 elseif(OPENHARMONY)
     include(${CMAKE_CURRENT_LIST_DIR}/openharmony/CMakeLists.txt)
