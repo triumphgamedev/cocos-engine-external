@@ -219,12 +219,17 @@ endif()
 list(APPEND CC_EXTERNAL_LIBS
     jpeg
     png
-    webp
     ${glslang_libs_name}
     ${spirv-cross_libs_name}
     ${tbb_libs_name}
     ${PhysXSDK}
 )
+
+# TRIUMPH: libwebp.a here carries only i386/armv7/armv7s (no arm64); Xcode 26+'s linker rejects its misaligned
+# members outright, so it must stay off the link line unless the engine actually decodes WebP (USE_WEBP).
+if(USE_WEBP)
+    list(APPEND CC_EXTERNAL_LIBS webp)
+endif()
 
 set(ZLIB z)
 if(NOT USE_MODULES)
